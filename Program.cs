@@ -262,93 +262,91 @@ void EnterData()
 // }
 
 
-//5.設備租借與逾期計費
-bool running4 = true;
-string statusing = "available";
-int day = 0;
-decimal total = 0;
-string name="";
+// //5.設備租借與逾期計費
+// bool running4 = true;
+// string statusing = "available";
+// int day = 0;
+// decimal total = 0;
+// string name="";
 
-
-while (running4)
-{
-    Console.Write("支援rent:姓名、return:天數、status、exit:");
-    string[] input = (Console.ReadLine() ?? "").Trim().Split(':');
-    string options = input[0].ToLower();
+// while (running4)
+// {
+//     Console.Write("支援rent:姓名、return:天數、status、exit:");
+//     string[] input = (Console.ReadLine() ?? "").Trim().Split(':');
+//     string options = input[0];
     
-
-    if(options == "exit")
-    {
-        Console.WriteLine("程式結束");
-        return;
-    }
-    else if (options == "rent")
-    {
+//     if(options == "exit")
+//     {
+//         Console.WriteLine("程式結束");
+//         return;
+//     }
+//     else if (options == "rent")
+//     {
         
-        if (input[1].Length > 2 && statusing == "available")
-        {
-            name = input[1];
-            Console.WriteLine($"租借成功:{name}");
-            statusing = "rented";
-            continue;
-        }
-        else if(statusing != "available")
-        {
-            Console.WriteLine($"租借中:{name}");
-            continue;
-        }
-        Console.WriteLine("姓名格式錯誤");
-        continue;
-    }
-    else if(options == "status")
-    {
-        if (statusing == "available")
-        {
-            Console.WriteLine("設備可租借");
-            continue;
-        }
-        Console.WriteLine($"租借中:{name}");
-        continue;
-    }
-    else if(options == "return")
-    {
-        if(int.TryParse(input[1], out day) && day > 0 && statusing == "rented")
-        {
-            total = RentalFee (day);
-            Console.WriteLine($"歸還成功，總費用:{total}");
-            statusing = "available";
-            continue;
-        }
-        else if(statusing != "rented")
-        {
-            Console.WriteLine("目前沒有租借中的設備");
-            continue;
-        }
-        Console.WriteLine("天數格式錯誤");
-        continue;
-    }
-    EnterData();
-} 
+//         if (input[1].Length > 2 && statusing == "available")
+//         {
+//             name = input[1];
+//             Console.WriteLine($"租借成功:{name}");
+//             statusing = "rented";
+//             continue;
+//         }
+//         else if(statusing != "available")
+//         {
+//             Console.WriteLine($"租借中:{name}");
+//             continue;
+//         }
+//         Console.WriteLine("姓名格式錯誤");
+//         continue;
+//     }
+//     else if(options == "status")
+//     {
+//         if (statusing == "available")
+//         {
+//             Console.WriteLine("設備可租借");
+//             continue;
+//         }
+//         Console.WriteLine($"租借中:{name}");
+//         continue;
+//     }
+//     else if(options == "return")
+//     {
+//         if(int.TryParse(input[1], out day) && day > 0 && statusing == "rented")
+//         {
+//             total = RentalFee (day);
+//             Console.WriteLine($"歸還成功，總費用:{total}");
+//             statusing = "available";
+//             continue;
+//         }
+//         else if(statusing != "rented")
+//         {
+//             Console.WriteLine("目前沒有租借中的設備");
+//             continue;
+//         }
+//         Console.WriteLine("天數格式錯誤");
+//         continue;
+//     }
+//     EnterData();
+// } 
 
-decimal RentalFee (int day)
-{
-    if(day <= 3)
-    {
-        return day * 100m;
-    }
-    else if (day >= 4 && day <= 7)
-    {
-        return (3*100m) + (day -3) * 80m;
-    }
-    else if(day >= 8 && day <= 10)
-    {
-        return (3 * 100m) + (4 * 80m) + (day - 7) * 50m;
-    }
-    else
-    {
-        return (3 * 100m) + (4 * 80m) + (3* 50m) + (day - 10)* 50m + 300m;
-    }
-}
+// decimal RentalFee (int day)
+// {
+//     if(day <= 3)
+//     {
+//         return day * 100m;
+//     }
+//     else if (day >= 4 && day <= 7)
+//     {
+//         return (3*100m) + (day -3) * 80m;
+//     }
+//     else if(day >= 8 && day <= 10)
+//     {
+//         return (3 * 100m) + (4 * 80m) + (day - 7) * 50m;
+//     }
+//     else
+//     {
+//         return (3 * 100m) + (4 * 80m) + (3* 50m) + (day - 10)* 50m + 300m;
+//     }
+// }
 
 // //6.電影院座位預約控制
 // bool running5 = true;
@@ -412,3 +410,54 @@ decimal RentalFee (int day)
 //     EnterData();
 // }
 
+
+
+//7.物流運費規則引擎
+decimal cost =260m;
+decimal remote = 0m;
+decimal yes = 0m;
+decimal total = 0m;
+
+Console.Write("輸入格式(重量公斤,地區,急件，例如 6.5,remote,yes):   ");
+string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(',');
+string area = input[1].Trim();
+string urgent = input[2].Trim();
+
+if(double.TryParse(input[0], out double weight) && weight > 0 && weight <= 30)
+{
+    if(weight <= 5)
+    {
+        cost = 80m;
+    }
+    else if(weight > 5 && weight <= 10)
+    {
+        cost = 120m;
+    }        
+    else if(weight > 10 && weight <= 20)
+    {
+        cost = 180m;
+    }
+}
+    
+if(area == "remote" || area == "city" )
+{
+    if(area == "remote")
+    {
+        remote = 70m;
+    }
+}
+
+if(urgent == "yes" || urgent == "no")
+{
+    if(urgent == "yes")
+    {
+        yes = 100m;
+    }
+}
+
+if(weight > 0 && weight <= 30 && area == "remote" || area == "city" && urgent == "yes" || urgent == "no")
+total = cost + remote + yes;
+Console.WriteLine($"基本運費:{cost}");
+Console.WriteLine($"偏遠加價:{remote}");
+Console.WriteLine($"急件加價:{yes}");
+Console.WriteLine($"應付運費:{total}");
