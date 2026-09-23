@@ -420,8 +420,8 @@ decimal total = 0m;
 
 Console.Write("輸入格式(重量公斤,地區,急件，例如 6.5,remote,yes):   ");
 string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(',');
-string area = input[1].Trim();
-string urgent = input[2].Trim();
+string area = input[1].Trim().ToLower();
+string urgent = input[2].Trim().ToLower();
 
 if(double.TryParse(input[0], out double weight) && weight > 0 && weight <= 30)
 {
@@ -455,7 +455,6 @@ if(urgent == "yes" || urgent == "no")
     }
 }
 
-if(weight > 0 && weight <= 30 && area == "remote" || area == "city" && urgent == "yes" || urgent == "no")
 total = cost + remote + yes;
 Console.WriteLine($"基本運費:{cost}");
 Console.WriteLine($"偏遠加價:{remote}");
