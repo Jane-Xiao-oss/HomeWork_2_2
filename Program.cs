@@ -412,66 +412,150 @@ void EnterData()
 
 
 
-//7.物流運費規則引擎
-decimal cost =260m;
-decimal remote = 0m;
-decimal yes = 0m;
-decimal total = 0m;
+// //7.物流運費規則引擎
+// decimal cost =260m;
+// decimal remote = 0m;
+// decimal yes = 0m;
+// decimal total = 0m;
 
-Console.Write("輸入格式(重量公斤,地區,急件，例如 6.5,remote,yes):   ");
-string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(',');
-string area = input[1].Trim().ToLower();
-string urgent = input[2].Trim().ToLower();
+// Console.Write("輸入格式(重量公斤,地區,急件，例如 6.5,remote,yes):   ");
+// string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(',');
+// string area = input[1].Trim().ToLower();
+// string urgent = input[2].Trim().ToLower();
 
-if(double.TryParse(input[0], out double weight))
+// if(double.TryParse(input[0], out double weight))
+// {
+//     if(weight > 30)
+//     {
+//         EnterData();
+//         return;
+//     }
+//     else if(weight <= 5)
+//     {
+//         cost = 80m;
+//     }
+//     else if(weight > 5 && weight <= 10)
+//     {
+//         cost = 120m;
+//     }        
+//     else if(weight > 10 && weight <= 20)
+//     {
+//         cost = 180m;
+//     }
+// }
+    
+// if(area == "remote" || area == "city" )
+// {
+//     if(area == "remote")
+//     {
+//         remote = 70m;
+//     }
+// }
+// else
+// {
+//     EnterData();
+//     return;
+// }
+
+// if(urgent == "yes" || urgent == "no")
+// {
+//     if(urgent == "yes")
+//     {
+//         yes = 100m;
+//     }
+// }
+// else
+// {
+//     EnterData();
+//     return;
+// }
+
+// total = cost + remote + yes;
+// Console.WriteLine($"基本運費:{cost}");
+// Console.WriteLine($"偏遠加價:{remote}");
+// Console.WriteLine($"急件加價:{yes}");
+// Console.WriteLine($"應付運費:{total}");
+
+
+//8. 交通號誌狀態機
+bool running7 = true;
+string signal = "green";
+string urgent = "off";
+
+
+while (running7)
 {
-    if(weight > 30)
+    Console.Write("輸入格式(支援 next、emergency:on、emergency:off、status、exit):   ");
+    string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(':');
+    string options = input[0];
+
+    if(options == "exit")
     {
-        EnterData();
+        Console.WriteLine("程式結束");
         return;
     }
-    else if(weight <= 5)
+    else if(options == "status")
     {
-        cost = 80m;
+        Console.WriteLine($"目前號誌:{signal}");
+        continue;
     }
-    else if(weight > 5 && weight <= 10)
+    else if (options == "next")
     {
-        cost = 120m;
-    }        
-    else if(weight > 10 && weight <= 20)
-    {
-        cost = 180m;
-    }
-}
-    
-if(area == "remote" || area == "city" )
-{
-    if(area == "remote")
-    {
-        remote = 70m;
-    }
-}
-else
-{
-    EnterData();
-    return;
-}
+        if(urgent == "on")
+        {
+            Console.WriteLine("緊急模式中");
+            continue;
+        }
 
-if(urgent == "yes" || urgent == "no")
-{
-    if(urgent == "yes")
-    {
-        yes = 100m;
+        if(signal == "red")
+        {
+            signal = "green";
+        }
+        else if(signal == "yellow")
+        {
+            signal = "red";
+        }
+        else if(signal == "green")
+        {
+            signal = "yellow";
+        }
+        if(urgent == "on")
+        {
+            Console.WriteLine("緊急模式");
+            continue;
+        }
+        Console.WriteLine($"號誌:{signal}");
+        continue;
     }
-}
-else
-{
-    EnterData();
-    return;
-}
+    else if(options == "emergency")
+    {
+        string emergency = input[1].Trim().ToLower();
+        if(emergency == "on" || emergency == "off")
+        {
+            if(emergency == "on")
+            {
+                if(urgent == "on")
+                {
+                    Console.WriteLine("已在緊急模式");
+                    continue;
+                }
+                urgent = "on";
+                signal = "red";
+                Console.WriteLine($"已進入緊急模式，號誌:{signal}");
+                continue;
+            }
 
-total = cost + remote + yes;
-Console.WriteLine($"基本運費:{cost}");
-Console.WriteLine($"偏遠加價:{remote}");
-Console.WriteLine($"急件加價:{yes}");
-Console.WriteLine($"應付運費:{total}");
+            if(urgent == "off")
+                {
+                    Console.WriteLine("目前非緊急模式");
+                    continue;
+                }
+            
+            urgent = "off";
+            Console.WriteLine("已解除緊急模式");
+            continue;
+        }
+    }
+    EnterData();
+
+}
