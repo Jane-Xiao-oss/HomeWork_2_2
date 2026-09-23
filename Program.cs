@@ -423,9 +423,14 @@ string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(',');
 string area = input[1].Trim().ToLower();
 string urgent = input[2].Trim().ToLower();
 
-if(double.TryParse(input[0], out double weight) && weight > 0 && weight <= 30)
+if(double.TryParse(input[0], out double weight))
 {
-    if(weight <= 5)
+    if(weight > 30)
+    {
+        EnterData();
+        return;
+    }
+    else if(weight <= 5)
     {
         cost = 80m;
     }
@@ -446,6 +451,11 @@ if(area == "remote" || area == "city" )
         remote = 70m;
     }
 }
+else
+{
+    EnterData();
+    return;
+}
 
 if(urgent == "yes" || urgent == "no")
 {
@@ -453,6 +463,11 @@ if(urgent == "yes" || urgent == "no")
     {
         yes = 100m;
     }
+}
+else
+{
+    EnterData();
+    return;
 }
 
 total = cost + remote + yes;
