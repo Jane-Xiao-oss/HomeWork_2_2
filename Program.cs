@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Collections;
 using System.Formats.Asn1;
 using System.Net;
 using System.Runtime.CompilerServices;
@@ -477,85 +478,213 @@ void EnterData()
 // Console.WriteLine($"應付運費:{total}");
 
 
-//8. 交通號誌狀態機
-bool running7 = true;
-string signal = "green";
-string urgent = "off";
+// //8. 交通號誌狀態機
+// bool running7 = true;
+// string signal = "green";
+// string urgent = "off";
 
 
-while (running7)
+// while (running7)
+// {
+//     Console.Write("輸入格式(支援 next、emergency:on、emergency:off、status、exit):   ");
+//     string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(':');
+//     string options = input[0];
+
+//     if(options == "exit")
+//     {
+//         Console.WriteLine("程式結束");
+//         return;
+//     }
+//     else if(options == "status")
+//     {
+//         Console.WriteLine($"目前號誌:{signal}");
+//         continue;
+//     }
+//     else if (options == "next")
+//     {
+//         if(urgent == "on")
+//         {
+//             Console.WriteLine("緊急模式中");
+//             continue;
+//         }
+
+//         if(signal == "red")
+//         {
+//             signal = "green";
+//         }
+//         else if(signal == "yellow")
+//         {
+//             signal = "red";
+//         }
+//         else if(signal == "green")
+//         {
+//             signal = "yellow";
+//         }
+//         if(urgent == "on")
+//         {
+//             Console.WriteLine("緊急模式");
+//             continue;
+//         }
+//         Console.WriteLine($"號誌:{signal}");
+//         continue;
+//     }
+//     else if(options == "emergency")
+//     {
+//         string emergency = input[1].Trim().ToLower();
+//         if(emergency == "on" || emergency == "off")
+//         {
+//             if(emergency == "on")
+//             {
+//                 if(urgent == "on")
+//                 {
+//                     Console.WriteLine("已在緊急模式");
+//                     continue;
+//                 }
+//                 urgent = "on";
+//                 signal = "red";
+//                 Console.WriteLine($"已進入緊急模式，號誌:{signal}");
+//                 continue;
+//             }
+
+//             if(urgent == "off")
+//                 {
+//                     Console.WriteLine("目前非緊急模式");
+//                     continue;
+//                 }
+            
+//             urgent = "off";
+//             Console.WriteLine("已解除緊急模式");
+//             continue;
+//         }
+//     }
+//     EnterData();
+// }
+
+
+//9.販賣機餘額與庫存系統
+bool running8 = true;
+decimal balance = 0m;
+int inventoryA = 2;
+int inventoryB = 1;
+int inventoryC = 2;
+decimal price = 0m;
+string commodity = "";
+
+
+while (running8)
 {
-    Console.Write("輸入格式(支援 next、emergency:on、emergency:off、status、exit):   ");
-    string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(':');
-    string options = input[0];
+    Console.Write("支援coin:N、buy:X、status、refund、exit:");
+    string[] input = (Console.ReadLine() ?? "").Split(':');
+    string options = input[0].ToLower().Trim();
 
-    if(options == "exit")
+    switch (commodity)
     {
+        case "A":
+        price = 35m;
+        break;
+        case "B":
+        price = 50m;
+        break;
+        case "C":
+        price = 70m;
+        break;
+    }
+
+    if (options == "exit")
+    {
+        if(balance > 0)
+        {
+            Console.WriteLine($"退幣:{balance}元");
+        }
         Console.WriteLine("程式結束");
         return;
     }
+    else if(options == "refund")
+    {
+        Console.WriteLine($"退回餘額:{balance}元");
+        balance = 0;
+        continue;
+    }
     else if(options == "status")
     {
-        Console.WriteLine($"目前號誌:{signal}");
+        Console.WriteLine($"餘額:{balance}，A:{inventoryA}，B:{inventoryB}，C:{inventoryC}");
         continue;
     }
-    else if (options == "next")
+    else if(options == "buy")
     {
-        if(urgent == "on")
+        commodity = input[1].Trim().ToUpper();
+                
+        // if(balance < price)
+        // {
+        //     Console.WriteLine("餘額不足");
+        //     continue;
+        // }
+        if(commodity == "A")
         {
-            Console.WriteLine("緊急模式中");
-            continue;
-        }
-
-        if(signal == "red")
-        {
-            signal = "green";
-        }
-        else if(signal == "yellow")
-        {
-            signal = "red";
-        }
-        else if(signal == "green")
-        {
-            signal = "yellow";
-        }
-        if(urgent == "on")
-        {
-            Console.WriteLine("緊急模式");
-            continue;
-        }
-        Console.WriteLine($"號誌:{signal}");
-        continue;
-    }
-    else if(options == "emergency")
-    {
-        string emergency = input[1].Trim().ToLower();
-        if(emergency == "on" || emergency == "off")
-        {
-            if(emergency == "on")
+            
+            if(inventoryA <= 0 )
             {
-                if(urgent == "on")
-                {
-                    Console.WriteLine("已在緊急模式");
-                    continue;
-                }
-                urgent = "on";
-                signal = "red";
-                Console.WriteLine($"已進入緊急模式，號誌:{signal}");
+                Console.WriteLine($"{commodity} 已售完");
                 continue;
             }
+            else if(balance < price)
+            {
+                Console.WriteLine("餘額不足");
+                continue;
+            }
+            inventoryA = inventoryA - 1;
+            balance = balance - 35m;
+            Console.WriteLine($"成功購買 A，餘額:{balance}元");
+            continue;
+        }
+        else if(commodity == "B")
+        {
 
-            if(urgent == "off")
-                {
-                    Console.WriteLine("目前非緊急模式");
-                    continue;
-                }
-            
-            urgent = "off";
-            Console.WriteLine("已解除緊急模式");
+            if(inventoryB <= 0 )
+            {
+                Console.WriteLine($"{commodity} 已售完");
+                continue;
+            }
+            else if(balance < price)
+            {
+                Console.WriteLine("餘額不足");
+                continue;
+            }
+            inventoryB = inventoryB - 1;
+            balance = balance - 50m;
+            Console.WriteLine($"成功購買 B，餘額:{balance}元");
+            continue;
+        }
+        else if(commodity == "C")
+        {
+
+            if(inventoryC <= 0 )
+            {
+                Console.WriteLine($"{commodity} 已售完");
+                continue;
+            }
+else      if(balance < price)
+            {
+                Console.WriteLine("餘額不足");
+                continue;
+            }
+            inventoryC = inventoryC - 1;
+            balance = balance - 70m;
+            Console.WriteLine($"成功購買 C，餘額:{balance}元");
             continue;
         }
     }
-    EnterData();
+    else if(options == "coin")
+    {
+        if(decimal.TryParse(input[1],out decimal money) || money == 50 || money == 20 || money == 10)
+        {
+            balance = balance + money;
+            Console.WriteLine($"成功投入 {money}元，餘額:{balance}元");
+            continue;
+        }
+        Console.WriteLine("不接受此硬幣");
+        continue;
+    }
 
+    EnterData();
 }
