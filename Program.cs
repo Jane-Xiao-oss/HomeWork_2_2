@@ -561,130 +561,222 @@ void EnterData()
 // }
 
 
-//9.販賣機餘額與庫存系統
-bool running8 = true;
-decimal balance = 0m;
-int inventoryA = 2;
-int inventoryB = 1;
-int inventoryC = 2;
-decimal price = 0m;
-string commodity = "";
+// //9.販賣機餘額與庫存系統
+// bool running8 = true;
+// decimal balance = 0m;
+// int inventoryA = 2;
+// int inventoryB = 1;
+// int inventoryC = 2;
+// decimal price = 0m;
+// string commodity = "";
 
 
-while (running8)
+// while (running8)
+// {
+//     Console.Write("支援coin:N、buy:X、status、refund、exit:");
+//     string[] input = (Console.ReadLine() ?? "").Split(':');
+//     string options = input[0].ToLower().Trim();
+
+//     switch (commodity)
+//     {
+//         case "A":
+//         price = 35m;
+//         break;
+//         case "B":
+//         price = 50m;
+//         break;
+//         case "C":
+//         price = 70m;
+//         break;
+//     }
+
+//     if (options == "exit")
+//     {
+//         if(balance > 0)
+//         {
+//             Console.WriteLine($"退幣:{balance}元");
+//         }
+//         Console.WriteLine("程式結束");
+//         return;
+//     }
+//     else if(options == "refund")
+//     {
+//         Console.WriteLine($"退回餘額:{balance}元");
+//         balance = 0;
+//         continue;
+//     }
+//     else if(options == "status")
+//     {
+//         Console.WriteLine($"餘額:{balance}，A:{inventoryA}，B:{inventoryB}，C:{inventoryC}");
+//         continue;
+//     }
+//     else if(options == "buy")
+//     {
+//         commodity = input[1].Trim().ToUpper();
+                
+//         // if(balance < price)
+//         // {
+//         //     Console.WriteLine("餘額不足");
+//         //     continue;
+//         // }
+//         if(commodity == "A")
+//         {
+            
+//             if(inventoryA <= 0 )
+//             {
+//                 Console.WriteLine($"{commodity} 已售完");
+//                 continue;
+//             }
+//             else if(balance < price)
+//             {
+//                 Console.WriteLine("餘額不足");
+//                 continue;
+//             }
+//             inventoryA = inventoryA - 1;
+//             balance = balance - 35m;
+//             Console.WriteLine($"成功購買 A，餘額:{balance}元");
+//             continue;
+//         }
+//         else if(commodity == "B")
+//         {
+
+//             if(inventoryB <= 0 )
+//             {
+//                 Console.WriteLine($"{commodity} 已售完");
+//                 continue;
+//             }
+//             else if(balance < price)
+//             {
+//                 Console.WriteLine("餘額不足");
+//                 continue;
+//             }
+//             inventoryB = inventoryB - 1;
+//             balance = balance - 50m;
+//             Console.WriteLine($"成功購買 B，餘額:{balance}元");
+//             continue;
+//         }
+//         else if(commodity == "C")
+//         {
+
+//             if(inventoryC <= 0 )
+//             {
+//                 Console.WriteLine($"{commodity} 已售完");
+//                 continue;
+//             }
+// else      if(balance < price)
+//             {
+//                 Console.WriteLine("餘額不足");
+//                 continue;
+//             }
+//             inventoryC = inventoryC - 1;
+//             balance = balance - 70m;
+//             Console.WriteLine($"成功購買 C，餘額:{balance}元");
+//             continue;
+//         }
+//     }
+//     else if(options == "coin")
+//     {
+//         if(decimal.TryParse(input[1],out decimal money) || money == 50 || money == 20 || money == 10)
+//         {
+//             balance = balance + money;
+//             Console.WriteLine($"成功投入 {money}元，餘額:{balance}元");
+//             continue;
+//         }
+//         Console.WriteLine("不接受此硬幣");
+//         continue;
+//     }
+
+//     EnterData();
+// }
+
+
+//10.停車場容量與保留車位
+bool running9 = true;
+int quantity = 1;
+int remain = 8;
+int vip = 1;
+int normal = 1;
+string vehicle ="";
+
+while (running9)
 {
-    Console.Write("支援coin:N、buy:X、status、refund、exit:");
-    string[] input = (Console.ReadLine() ?? "").Split(':');
-    string options = input[0].ToLower().Trim();
+    Console.Write("支援in:normal、in:vip、out:normal、out:vip、status、close:");
+    string[] input = (Console.ReadLine() ?? "").Trim().ToLower().Split(':');
+    string options = input[0];
 
-    switch (commodity)
+    if(options == "close")
     {
-        case "A":
-        price = 35m;
-        break;
-        case "B":
-        price = 50m;
-        break;
-        case "C":
-        price = 70m;
-        break;
-    }
-
-    if (options == "exit")
-    {
-        if(balance > 0)
-        {
-            Console.WriteLine($"退幣:{balance}元");
-        }
+        Console.WriteLine($"normal:{normal}，vip:{vip}，總車數:{quantity}，剩餘:{remain}");
         Console.WriteLine("程式結束");
         return;
     }
-    else if(options == "refund")
-    {
-        Console.WriteLine($"退回餘額:{balance}元");
-        balance = 0;
-        continue;
-    }
     else if(options == "status")
     {
-        Console.WriteLine($"餘額:{balance}，A:{inventoryA}，B:{inventoryB}，C:{inventoryC}");
+        Console.WriteLine($"normal:{normal}，vip:{vip}，總車數:{quantity}，剩餘:{remain}");
         continue;
     }
-    else if(options == "buy")
+    else if (options == "out")
     {
-        commodity = input[1].Trim().ToUpper();
-                
-        // if(balance < price)
-        // {
-        //     Console.WriteLine("餘額不足");
-        //     continue;
-        // }
-        if(commodity == "A")
-        {
-            
-            if(inventoryA <= 0 )
-            {
-                Console.WriteLine($"{commodity} 已售完");
-                continue;
-            }
-            else if(balance < price)
-            {
-                Console.WriteLine("餘額不足");
-                continue;
-            }
-            inventoryA = inventoryA - 1;
-            balance = balance - 35m;
-            Console.WriteLine($"成功購買 A，餘額:{balance}元");
-            continue;
-        }
-        else if(commodity == "B")
-        {
+        vehicle = input[1].Trim().ToLower();
 
-            if(inventoryB <= 0 )
-            {
-                Console.WriteLine($"{commodity} 已售完");
-                continue;
-            }
-            else if(balance < price)
-            {
-                Console.WriteLine("餘額不足");
-                continue;
-            }
-            inventoryB = inventoryB - 1;
-            balance = balance - 50m;
-            Console.WriteLine($"成功購買 B，餘額:{balance}元");
-            continue;
-        }
-        else if(commodity == "C")
+        if(vehicle == "normal" && normal > 0)
         {
-
-            if(inventoryC <= 0 )
-            {
-                Console.WriteLine($"{commodity} 已售完");
-                continue;
-            }
-else      if(balance < price)
-            {
-                Console.WriteLine("餘額不足");
-                continue;
-            }
-            inventoryC = inventoryC - 1;
-            balance = balance - 70m;
-            Console.WriteLine($"成功購買 C，餘額:{balance}元");
+            normal--;
+            quantity--;
+            remain++;
+            Console.WriteLine("一般車離場");
             continue;
         }
+        else if(vehicle == "vip" && vip > 0)
+        {
+            vip--;
+            quantity--;
+            remain++;
+            Console.WriteLine("VIP車離場");
+            continue;
+        }
+        Console.WriteLine("無此類車輛可離場");
+        continue;
     }
-    else if(options == "coin")
+    else if (options == "in")
     {
-        if(decimal.TryParse(input[1],out decimal money) || money == 50 || money == 20 || money == 10)
+        vehicle = input[1].Trim().ToLower();
+
+        if(quantity > 8)
         {
-            balance = balance + money;
-            Console.WriteLine($"成功投入 {money}元，餘額:{balance}元");
+            Console.WriteLine("停車場已滿");
             continue;
         }
-        Console.WriteLine("不接受此硬幣");
+        
+        if(vehicle == "normal")
+        {
+            if(normal > 6 )
+            {
+                Console.WriteLine("一般車位已滿");
+                continue;
+            }
+            normal++;
+            quantity++; 
+            remain--;          
+            Console.WriteLine("一般車進場");
+            continue;
+        }
+        else if(vehicle == "vip")
+        {
+            if(vip > 8 || remain == 0)
+            {
+                Console.WriteLine("VIP車位已滿");
+                continue;
+            }
+            vip++;
+            quantity++;
+            remain--;  
+            Console.WriteLine("VIP車進場");
+            continue;
+        }
+        Console.WriteLine("無此類車輛可離場");
         continue;
     }
 
-    EnterData();
+EnterData();
 }
