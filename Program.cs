@@ -706,13 +706,13 @@ while (running9)
 
     if(options == "close")
     {
-        Console.WriteLine($"normal:{normal}，vip:{vip}，總車數:{quantity}，剩餘:{remain}");
+        Console.WriteLine($"normal:{normal-1}，vip:{vip-1}，總車數:{quantity-1}，剩餘:{remain}");
         Console.WriteLine("程式結束");
         return;
     }
     else if(options == "status")
     {
-        Console.WriteLine($"normal:{normal}，vip:{vip}，總車數:{quantity}，剩餘:{remain}");
+        Console.WriteLine($"normal:{normal-1}，vip:{vip-1}，總車數:{quantity-1}，剩餘:{remain}");
         continue;
     }
     else if (options == "out")
